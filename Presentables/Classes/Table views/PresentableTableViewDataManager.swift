@@ -37,7 +37,12 @@ open class PresentableTableViewDataManager: NSObject, PresentableManager, UITabl
     }
     
     open func reload(section: Int) {
-        tableView?.reloadSections([section], with: .none)
+        tableView?.performBatchUpdates({
+            print("reloading: \(section) - Kevin")
+            tableView?.reloadSections(IndexSet([section]), with: .none)
+        }) { completed in
+            print("reload \(section) finished - Kevin")
+        }
     }
     
     open func reload(indexPath: IndexPath) {

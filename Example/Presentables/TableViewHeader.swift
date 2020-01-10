@@ -28,10 +28,9 @@ class TableViewHeader: UITableViewHeaderFooterView {
         titleLabel.textColor = .white
         titleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         titleLabel.snp.makeConstraints { (make) in
-            make.height.equalTo(44)
             make.left.equalTo(20)
             make.right.equalTo(-20)
-            make.top.bottom.equalTo(self)
+            make.top.bottom.equalTo(self.contentView)
         }
     }
     
