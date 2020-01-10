@@ -22,16 +22,12 @@ public protocol PresentableSectionMarker {
 public typealias PresentableSectionMarkers = [PresentableSectionMarker]
 
 public class PresentableSection: PresentableSectionMarker, Collection {
-    
-    public enum Animation {
-        case none
-    }
-    
+
     var bindableHeader: Observable<PresentableType?> = Observable(nil)
     var bindableFooter: Observable<PresentableType?> = Observable(nil)
     var bindablePresenters: Observable<[PresentableType]?> = Observable(nil)
     
-    public var headerAnimation: Animation = .none
+    public var headerAnimation: UITableView.RowAnimation = .none
     public var header: PresentableType? {
         get {
             return bindableHeader.value
@@ -41,7 +37,7 @@ public class PresentableSection: PresentableSectionMarker, Collection {
         }
     }
 
-    public var footerAnimation: Animation = .none
+    public var footerAnimation: UITableView.RowAnimation = .none
     public var footer: PresentableType? {
         get {
             return bindableFooter.value
@@ -51,9 +47,7 @@ public class PresentableSection: PresentableSectionMarker, Collection {
         }
     }
     
-    public var presenterAnimation: Animation = .none
-    
-    @available(*, deprecated, message: "Use section.append(Presentable) directly")
+    public var presenterAnimation: UITableView.RowAnimation = .none
     public var presentables: [PresentableType] {
         get {
             return _presentables
@@ -71,9 +65,11 @@ public class PresentableSection: PresentableSectionMarker, Collection {
             bindablePresenters.value = newValue
         }
     }
-    
+
+    var sectionIndex: Int?
+
     // MARK: Access
-    
+
     public var startIndex: Int {
         get {
             return 0
@@ -103,7 +99,7 @@ public class PresentableSection: PresentableSectionMarker, Collection {
     }
     
     public func index(where predicate: (PresentableType) throws -> Bool) rethrows -> Int? {
-        return try _presentables.index(where: predicate)
+        return try _presentables.firstIndex(where: predicate)
     }
     
     public func append(_ presentable: PresentableType) {
